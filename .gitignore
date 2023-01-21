@@ -16,5 +16,6 @@ PanView/obj/
 RTLTCP/obj/
 Radio/obj/
 SDRIQ/obj/
-SoftRock/
-WavRecorder/
+SoftRock/obj/
+WavRecorder/obj/
+KnureSDR/obj/
