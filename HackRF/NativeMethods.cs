@@ -29,7 +29,7 @@ namespace SDRSharp.HackRF
 
     public class NativeMethods
     {
-        private const string LibHackRF = "libhackrf";
+        private const string LibHackRF = "hackrf";
 
         #region Native Methods
 

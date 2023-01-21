@@ -206,6 +206,9 @@ namespace SDRSharp.Radio
             try
             {
                 var strValue = ConfigurationManager.AppSettings[name];
+                if (string.IsNullOrEmpty(strValue))
+                    return defaultValue;
+
                 var values = strValue.Split(',');
                 if (defaultValue != null && defaultValue.Length != values.Length)
                 {
