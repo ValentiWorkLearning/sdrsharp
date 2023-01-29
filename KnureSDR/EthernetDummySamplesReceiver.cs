@@ -22,7 +22,7 @@ namespace SDRSharp.KnureSDR
 
         // placeholders
         private readonly string _name = "Test Ethernet dummy receiver";
-        private readonly int[] _supportedGains= { };
+        private readonly int[] _supportedGains = { };
         private bool _useTunerAGC = true;
         private bool _useRtlAGC;
         private int _tunerGain;
@@ -112,8 +112,7 @@ namespace SDRSharp.KnureSDR
 
         public void Start()
         {
-            _udpClient = new UdpClient();
-            _udpClient.Connect("192.168.0.174", 5555);
+            _udpClient = new UdpClient(5555);
             _udpClient.Client.SendTimeout = SocketDefaultTimeout;
             _udpClient.Client.ReceiveTimeout = SocketDefaultTimeout;
 
@@ -129,19 +128,22 @@ namespace SDRSharp.KnureSDR
             {
                 return;
             }
-       
+
             if (_worker.ThreadState == ThreadState.Running)
             {
                 _cancellationToken.Cancel();
                 _worker.Join();
             }
             _worker = null;
+            _udpClient.Close();
+            _udpClient = null;
         }
 
 
         private void RtlSdrSamplesAvailable(byte* buf, uint len)
         {
             var sampleCount = (int)len / 2;
+
             if (_iqBuffer == null || _iqBuffer.Length != sampleCount)
             {
                 _iqBuffer = UnsafeBuffer.Create(sampleCount, sizeof(Complex));
@@ -169,19 +171,19 @@ namespace SDRSharp.KnureSDR
             }
         }
 
-       private void StreamProc()
+        private void StreamProc()
         {
             while (!_cancellationToken.IsCancellationRequested)
             {
-               
+
                 try
                 {
-                    IPEndPoint remoteEP = null;
+                    IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 5555);
                     byte[] receivedBytes = _udpClient.Receive(ref remoteEP);
 
                     ProcessReceivedBytes(receivedBytes);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
                 }
@@ -196,6 +198,8 @@ namespace SDRSharp.KnureSDR
             }
         }
 
+
+        #region Properties
         public uint Index
         {
             get { return 0; }
@@ -272,7 +276,7 @@ namespace SDRSharp.KnureSDR
 
         public int[] SupportedGains
         {
-         
+
             get { return _supportedGains; }
         }
 
@@ -310,5 +314,7 @@ namespace SDRSharp.KnureSDR
             get { return _worker != null; }
         }
 
+
+        #endregion
     }
 }
