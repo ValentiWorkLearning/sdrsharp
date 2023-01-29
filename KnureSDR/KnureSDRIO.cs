@@ -7,7 +7,7 @@ namespace SDRSharp.KnureSDR
     public unsafe class KnureSDRIO : IFrontendController, IDisposable
     {
         private readonly RtlSdrControllerDialog _gui;
-        private RtlDevice _rtlDevice;
+        private EthernetDummySamplesReceiver _rtlDevice;
         private uint _frequency = 105500000;
         private Radio.SamplesAvailableDelegate _callback;
 
@@ -33,14 +33,14 @@ namespace SDRSharp.KnureSDR
         public void SelectDevice(uint index)
         {
             Close();
-            _rtlDevice = new RtlDevice(index);
+            _rtlDevice = new EthernetDummySamplesReceiver();
             _rtlDevice.SamplesAvailable += rtlDevice_SamplesAvailable;
             _rtlDevice.Frequency = _frequency;
             _gui.ConfigureGUI();
             _gui.ConfigureDevice();
         }
 
-        public RtlDevice Device
+        public EthernetDummySamplesReceiver Device
         {
             get { return _rtlDevice; }
         }

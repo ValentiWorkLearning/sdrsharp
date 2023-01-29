@@ -237,16 +237,20 @@ namespace SDRSharp.KnureSDR
 
         public static DeviceDisplay[] GetActiveDevices()
         {
-            var count = NativeMethods.rtlsdr_get_device_count();
+            var count = 1;
             var result = new DeviceDisplay[count];
-
-            for (var i = 0u; i < count; i++)
-            {
-                var name = NativeMethods.rtlsdr_get_device_name(i);
-                result[i] = new DeviceDisplay { Index = i, Name = name };
-            }
-
+            result[0] = new DeviceDisplay { Index = 0, Name = "Dummy Ethernet receiver" };
             return result;
+            //var count = NativeMethods.rtlsdr_get_device_count();
+            //var result = new DeviceDisplay[count];
+
+            //for (var i = 0u; i < count; i++)
+            //{
+            //    var name = NativeMethods.rtlsdr_get_device_name(i);
+            //    result[i] = new DeviceDisplay { Index = i, Name = name };
+            //}
+
+            //return result;
         }
 
         public override string ToString()
