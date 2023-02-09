@@ -166,7 +166,10 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>xcopy /y $(SolutionDir)\sdr_sharp_deps\hackrf.dll  $(SolutionDir)\$(Configuration)
+xcopy /y $(SolutionDir)\sdr_sharp_deps\libusb-1.0.dll  $(SolutionDir)\$(Configuration)
+xcopy /y $(SolutionDir)\sdr_sharp_deps\PortAudio.dll $(SolutionDir)\$(Configuration)
+xcopy /y $(SolutionDir)\sdr_sharp_deps\rtlsdr.dll  $(SolutionDir)\$(Configuration)
+xcopy /y $(SolutionDir)\sdr_sharp_deps\sdriq.dll  $(SolutionDir)\$(Configuration)</PostBuildEvent>
   </PropertyGroup>
 </Project>

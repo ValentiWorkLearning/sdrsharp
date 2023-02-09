@@ -19,3 +19,8 @@ SDRIQ/obj/
 SoftRock/obj/
 WavRecorder/obj/
 KnureSDR/obj/
+!sdr_sharp_deps/hackrf.dll
+!sdr_sharp_deps/libusb-1.0.dll
+!sdr_sharp_deps/PortAudio.dll
+!sdr_sharp_deps/rtlsdr.dll
+!sdr_sharp_deps/sdriq.dll
