@@ -112,7 +112,7 @@ namespace SDRSharp.KnureSDR
 
         public void Start()
         {
-            _udpClient = new UdpClient(5555);
+            _udpClient = new UdpClient(9999);
             _udpClient.Client.SendTimeout = SocketDefaultTimeout;
             _udpClient.Client.ReceiveTimeout = SocketDefaultTimeout;
 
@@ -156,6 +156,7 @@ namespace SDRSharp.KnureSDR
                 ptr->Imag = _lutPtr[*buf++];
                 ptr->Real = _lutPtr[*buf++];
                 ptr++;
+
             }
 
             ComplexSamplesAvailable(_iqPtr, _iqBuffer.Length);
@@ -173,14 +174,14 @@ namespace SDRSharp.KnureSDR
 
         private void StreamProc()
         {
+            IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 9999);
             while (!_cancellationToken.IsCancellationRequested)
             {
-
+                
+                
                 try
                 {
-                    IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 5555);
                     byte[] receivedBytes = _udpClient.Receive(ref remoteEP);
-
                     ProcessReceivedBytes(receivedBytes);
                 }
                 catch (Exception ex)
